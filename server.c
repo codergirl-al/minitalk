@@ -1,3 +1,4 @@
+#include "libft/includes/libft.h"
 #include "minitalk.h"
 
 void sig_handler(int sig_num, siginfo_t* sig_info, void* context)
@@ -31,6 +32,7 @@ int main(void) {
     struct sigaction sa;
 
     // Set up signal handler
+    // ft_isalnum(335);
     sa.sa_sigaction = &sig_handler;
     sa.sa_flags = SA_SIGINFO;
 	ft_printf("PID: %d\n", getpid());
