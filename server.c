@@ -28,17 +28,18 @@ void sig_handler(int sig_num, siginfo_t* sig_info, void* context)
 }
 
 int main(void) {
-    pid_t pid;
-    struct sigaction sa;
+    struct  sigaction sa;
 
     // Set up signal handler
     // ft_isalnum(335);
     sa.sa_sigaction = &sig_handler;
     sa.sa_flags = SA_SIGINFO;
 	ft_printf("PID: %d\n", getpid());
-	sigaction(SIGUSR1, &sa, NULL);
-	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
+	{
+		sigaction(SIGUSR1, &sa, NULL);
+		sigaction(SIGUSR2, &sa, NULL);
 		pause();
+	}
 	return (0);
 }
