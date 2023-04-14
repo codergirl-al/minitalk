@@ -1,3 +1,4 @@
+#include "libft/includes/libft.h"
 #include "minitalk.h"
 
 /*
@@ -18,4 +19,27 @@ char    ft_convert_binary(char *binary)
             res = res | (1 << (7 - index));
     }
     return (res);
+}
+
+/*
+** Check if the input pointer-to-a-string contains digits
+** If so, return 0;
+** else, continue.
+*/
+
+int ft_validate_client_string(const char **str)
+{
+    const char *ptr = str;
+
+    if (!str)
+        return (0);
+    if (*ptr == '-')
+        ptr++;
+    while (*ptr != '\0')
+    {
+        if (!ft_isdigit(*ptr))
+            return (0);
+        ptr++;
+    }
+    return (1);
 }
