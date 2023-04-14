@@ -6,5 +6,6 @@
 
 //util functions
 char    ft_convert_binary(char *binary);
+int     ft_validate_client_string(const char **str);
 
 #endif
