@@ -6,7 +6,7 @@
 /*   By: apeposhi <apeposhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 22:24:03 by apeposhi          #+#    #+#             */
-/*   Updated: 2023/04/18 22:24:04 by apeposhi         ###   ########.fr       */
+/*   Updated: 2023/04/18 22:34:26 by apeposhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@
 ** binary: the binary string to convert (8 bits)
 ** returns: the corresponding ASCII character
 */
-char    ft_convert_binary(char *binary)
+char	ft_convert_binary(char *binary)
 {
-    char    res;
-    int     index;
+	char	res;
+	int		index;
 
-    index = -1;
-    res = 0;
-    while (binary[++index] != '\0')
-    {
-        if (binary[index] == '1')
-            res = res | (1 << (7 - index));
-    }
-    return (res);
+	index = -1;
+	res = 0;
+	while (binary[++index] != '\0')
+	{
+		if (binary[index] == '1')
+			res = res | (1 << (7 - index));
+	}
+	return (res);
 }
 
 /*
@@ -40,18 +40,18 @@ char    ft_convert_binary(char *binary)
 
 int ft_validate_client_string(const char **str)
 {
-    const char *ptr;
+	const char *ptr;
 
-    ptr = *str;
-    if (!str)
-        return (0);
-    if (*ptr == '-')
-        ptr++;
-    while (*ptr != '\0')
-    {
-        if (!ft_isdigit(*ptr))
-            return (0);
-        ptr++;
-    }
-    return (1);
+	ptr = *str;
+	if (!str)
+		return (0);
+	if (*ptr == '-')
+		ptr++;
+	while (*ptr != '\0')
+	{
+		if (!ft_isdigit(*ptr))
+			return (0);
+		ptr++;
+	}
+	return (1);
 }
