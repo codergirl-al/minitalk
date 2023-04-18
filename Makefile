@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: apeposhi <apeposhi@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/04/18 22:24:19 by apeposhi          #+#    #+#              #
+#    Updated: 2023/04/18 22:24:20 by apeposhi         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 # Compilation vars
 
 CC		=	cc
@@ -19,11 +31,12 @@ $(NAME): all
 
 $(SERVER):
 	@make -C $(LIBFT)
+	@cp $(LIBFT)/$(LIBFT_N) ../
 	$(CC) $(CFLAGS) $(SRC_S) $(INC) -L$(LIBFT) -lft -o $(SERVER)
 	@echo "Server is ready."
 
 $(CLIENT):
-	$(CC) $(CFLAGS) $(SRC_C) $(INC) -o $(CLIENT)
+	$(CC) $(CFLAGS) $(SRC_C) $(INC) -L$(LIBFT) -lft -o $(CLIENT)
 	@echo "Client is ready.\n"
 
 clean:
