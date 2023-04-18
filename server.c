@@ -6,18 +6,17 @@
 /*   By: apeposhi <apeposhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 22:24:10 by apeposhi          #+#    #+#             */
-/*   Updated: 2023/04/18 22:35:18 by apeposhi         ###   ########.fr       */
+/*   Updated: 2023/04/18 23:43:05 by apeposhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/includes/libft.h"
 #include "minitalk.h"
 
-void sig_handler(int sig_num, siginfo_t* sig_info, void* context)
+void	sig_handler(int sig_num, siginfo_t *sig_info, void *context)
 {
-	static char received_char;
-	static int  bit_count;
-	char        c;
+	static char	received_char;
+	static int	bit_count;
+	char		c;
 
 	if (sig_num == SIGUSR1)
 		received_char |= (1 << bit_count);
@@ -39,11 +38,10 @@ void sig_handler(int sig_num, siginfo_t* sig_info, void* context)
 	received_char = 0;
 }
 
-int main(void) {
-	struct  sigaction sa;
+int	main(void)
+{
+	struct sigaction	sa;
 
-	// Set up signal handler
-	// ft_isalnum(335);
 	sa.sa_sigaction = &sig_handler;
 	sa.sa_flags = SA_SIGINFO;
 	ft_printf("PID: %d\n", getpid());
