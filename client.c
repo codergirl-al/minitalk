@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: apeposhi <apeposhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/18 22:24:23 by apeposhi          #+#    #+#             */
-/*   Updated: 2023/04/18 23:40:44 by apeposhi         ###   ########.fr       */
+/*   Created: 2023/04/19 12:45:06 by apeposhi          #+#    #+#             */
+/*   Updated: 2023/04/19 15:49:54 by apeposhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,30 @@ static void	check_signal(int pid, int signal)
 
 static void	send_binary_message(char *message, int pid)
 {
-	char	letter;
-	int		bit;
-	int		i;
-	int		j;
+	int	i;
+	int	bit;
 
+	bit = -1;
+	i = 0;
 	if (!message)
 		exit(EXIT_FAILURE);
-	i = -1;
-	j = 8;
-	while (message[++i])
+	while (1)
 	{
-		letter = message[i];
-		while (j-- >= 0)
+		bit = -1;
+		while (++bit < 8)
 		{
-			bit = (letter >> j) & 1;
-			if (bit == 1)
-				check_signal(pid, SIGUSR1);
-			else
-				check_signal(pid, SIGUSR1);
+			if (message[i] & (0x80 >> bit))
+			{
+				if (kill(pid, SIGUSR1) == -1)
+					exit(1);
+			}
+			else if (kill(pid, SIGUSR2) == -1)
+				exit(1);
 			usleep(100);
 		}
+		if (!message[i])
+			break ;
+		++i;
 	}
 }
 
@@ -54,5 +57,11 @@ int	main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 	pid = ft_atoi(argv[1]);
+	if (pid <= 0)
+	{
+		ft_printf("Wrong PID, cannot proceed.\n");
+		return (0);
+	}
 	send_binary_message(argv[2], pid);
+	usleep(120);
 }
