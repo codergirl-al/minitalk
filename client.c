@@ -6,16 +6,16 @@
 /*   By: apeposhi <apeposhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 12:45:06 by apeposhi          #+#    #+#             */
-/*   Updated: 2023/04/21 14:07:04 by apeposhi         ###   ########.fr       */
+/*   Updated: 2023/04/21 16:13:44 by apeposhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-static void	acknowledgement_handler(int signal)
+static void	handler(int sig)
 {
-	if (signal == SIGUSR1)
-		g_a_variable++;
+	if (sig == SIGUSR1)
+		write(1, "Message received!\n", 18);
 }
 
 static void	send_binary_message(char *message, int pid)
@@ -30,16 +30,11 @@ static void	send_binary_message(char *message, int pid)
 		while (++bit < 8)
 		{
 			if (message[i] & (0x80 >> bit))
-			{
-				if (kill(pid, SIGUSR1) == -1)
-					exit(1);
-			}
-			else
-			{				
-				if (kill(pid, SIGUSR2) == -1)
-					exit(1);
-			}
+				kill(pid, SIGUSR1);
+			else			
+				kill(pid, SIGUSR2);
 			usleep(120);
+			signal(SIGUSR1, handler);
 		}
 		bit = -1;
 	}
@@ -52,7 +47,7 @@ int	main(int argc, char *argv[])
 	if (argc != 3)
 	{
 		write(1, "Invalid arguments have been entered.\n", 37);
-		exit(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	}
 	pid = ft_atoi(argv[1]);
 	if (pid <= 0)
@@ -62,7 +57,5 @@ int	main(int argc, char *argv[])
 	}
 	send_binary_message(argv[2], pid);
 	usleep(120);
-	ft_putnbr(g_a_variable);
-	write(1, " charcters received\n", 17);
 	return (0);
 }
