@@ -6,16 +6,16 @@
 /*   By: apeposhi <apeposhi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 12:45:06 by apeposhi          #+#    #+#             */
-/*   Updated: 2023/04/20 18:00:49 by apeposhi         ###   ########.fr       */
+/*   Updated: 2023/04/21 14:07:04 by apeposhi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-static void	check_signal(int pid, int signal)
+static void	acknowledgement_handler(int signal)
 {
-	if (kill(pid, signal) == -1)
-		exit(1);
+	if (signal == SIGUSR1)
+		g_a_variable++;
 }
 
 static void	send_binary_message(char *message, int pid)
@@ -25,8 +25,6 @@ static void	send_binary_message(char *message, int pid)
 
 	i = -1;
 	bit = -1;
-	if (!message)
-		exit(EXIT_FAILURE);
 	while (1 && message[++i] != '\0')
 	{
 		while (++bit < 8)
@@ -51,7 +49,7 @@ int	main(int argc, char *argv[])
 {
 	int	pid;
 
- 	if (argc != 3)
+	if (argc != 3)
 	{
 		write(1, "Invalid arguments have been entered.\n", 37);
 		exit(EXIT_FAILURE);
@@ -64,4 +62,7 @@ int	main(int argc, char *argv[])
 	}
 	send_binary_message(argv[2], pid);
 	usleep(120);
+	ft_putnbr(g_a_variable);
+	write(1, " charcters received\n", 17);
+	return (0);
 }
